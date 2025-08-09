@@ -1,0 +1,80 @@
+public class ToDoList {
+    private TaskNode head;
+    private int size = 0;
+
+    public void addTask(String title) {
+        TaskNode newNode = new TaskNode(title);
+        if (head == null) head = newNode;
+        else {
+            TaskNode cur = head;
+            while (cur.next != null) cur = cur.next;
+            cur.next = newNode;
+        }
+        size++;
+        System.out.println("Task added!");
+    }
+
+    public boolean deleteTask(String title) {
+        if (head == null) return false;
+        if (head.title.equals(title)) {
+            head = head.next;
+            size--;
+            return true;
+        }
+        TaskNode cur = head;
+        while (cur.next != null) {
+            if (cur.next.title.equals(title)) {
+                cur.next = cur.next.next;
+                size--;
+                return true;
+            }
+            cur = cur.next;
+        }
+        return false;
+    }
+
+    public void printTasks() {
+        if (head == null) {
+            System.out.println("No tasks.");
+            return;
+        }
+        System.out.println("Your Tasks:");
+        TaskNode cur = head;
+        while (cur != null) {
+            System.out.println("- " + cur.title);
+            cur = cur.next;
+        }
+    }
+
+    public boolean contains(String title) {
+        TaskNode cur = head;
+        while (cur != null) {
+            if (cur.title.equals(title)) return true;
+            cur = cur.next;
+        }
+        return false;
+    }
+
+    public int countTasks() {
+        return size;
+    }
+
+    public void insertTaskAt(int index, String title) {
+        if (index < 0 || index > size) {
+            System.out.println("Index out of bounds.");
+            return;
+        }
+        TaskNode newNode = new TaskNode(title);
+        if (index == 0) {
+            newNode.next = head;
+            head = newNode;
+        } else {
+            TaskNode cur = head;
+            for (int i = 0; i < index - 1; i++) cur = cur.next;
+            newNode.next = cur.next;
+            cur.next = newNode;
+        }
+        size++;
+        System.out.println("Task inserted at index " + index + "!");
+    }
+}
